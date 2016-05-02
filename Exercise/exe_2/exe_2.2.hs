@@ -7,9 +7,8 @@ data Nats = Zero | Succ Nats deriving Show
 
 instance Eq Nats where
   (==) Zero Zero = True
-  (==) Zero _ = False
-  (==) _ Zero = False
   (==) (Succ first) (Succ second) = first == second
+  (==) _ _ = False
 
 
 -- Exercise 2.2.b
@@ -20,9 +19,8 @@ class (Eq a) => Ordered a where
 
 -- Exercise 2.2.c
 instance Ordered Nats where
-  lt Zero Zero = False
-  lt Zero _ = True
   lt _ Zero = False
+  lt Zero _ = True
   lt (Succ first) (Succ second) = lt first second
 
 instance Ordered Integer where

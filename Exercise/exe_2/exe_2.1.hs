@@ -48,8 +48,6 @@ checkRightValue input (Node node left right)
 isSorted :: Ord a => BinaryTree a -> Bool
 isSorted Leaf = True
 isSorted (Node node left right)
-  = (checkLeftValue node left)
-  && (checkRightValue node right)
-  && (isSorted left)
-  && (isSorted right)
+  = (checkLeftValue node left) && (checkRightValue node right)
+  && (isSorted left) && (isSorted right)
 
