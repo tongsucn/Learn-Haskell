@@ -79,7 +79,7 @@ getInput = do
   -- task d)
   -- Referential transparency
 
-  -- task e)
+-- task e)
 main' :: IO ()
 main' = do
   let initValue = 0
@@ -92,7 +92,7 @@ main' = do
 
   if mod calcTimes 2 == 1
   then putStrLn "Good Bye!"
-  else putStrLn "Auf wiedersehen!"
+  else putStrLn "Auf Wiedersehen!"
   return ()
 
 simpleCalculator' :: Int -> (Int -> Int -> Int) -> Int -> IO Int
