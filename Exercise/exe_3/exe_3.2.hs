@@ -1,4 +1,10 @@
 module Exe_3_2
+(
+primes,
+primeFactors,
+mergeSort,
+splitList
+)
 where
 
 -- Exe 3.2.a
