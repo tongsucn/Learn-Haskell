@@ -45,7 +45,7 @@ main = do
 
 simpleCalculator :: Int -> (Int -> Int -> Int) -> IO ()
 simpleCalculator ans op =  do
-  -- task b)
+  -- task c)
   -- replace with implementation:
   -- Define a function for matching patterns of CalculatorInput data
   let
@@ -69,7 +69,7 @@ simpleCalculator ans op =  do
 
 getInput :: IO CalculatorInput
 getInput = do
-  -- task c)
+  -- task b)
   -- replace with implementation:
   putStr "> "
   inputStr <- getLine
@@ -79,3 +79,36 @@ getInput = do
   -- task d)
   -- Referential transparency
 
+  -- task e)
+main' :: IO ()
+main' = do
+  let initValue = 0
+      initOp = (\_ y -> y)
+      initCounter = 0
+
+  putStrLn "Welcome to the simple Haskell calculator!"
+  putStrLn $ show initValue
+  calcTimes <- simpleCalculator' initValue initOp initCounter
+
+  if mod calcTimes 2 == 1
+  then putStrLn "Good Bye!"
+  else putStrLn "Auf wiedersehen!"
+  return ()
+
+simpleCalculator' :: Int -> (Int -> Int -> Int) -> Int -> IO Int
+simpleCalculator' ans op times = do
+  let
+    matchInput :: CalculatorInput -> IO Int
+    matchInput Exit = return times
+    matchInput (Error str) = do
+              putStrLn $ "Invalid Input: " ++ str
+              putStrLn $ show ans
+              simpleCalculator' ans op times
+    matchInput (Operator newOp) = simpleCalculator' ans newOp times
+    matchInput (Number num) = do
+              let newAns = op ans num
+              putStrLn $ show newAns
+              simpleCalculator' newAns op (times + 1)
+
+  newInput <- getInput
+  matchInput newInput
