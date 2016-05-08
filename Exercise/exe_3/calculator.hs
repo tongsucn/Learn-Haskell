@@ -30,20 +30,52 @@ main :: IO ()
 main = do
   -- task a)
   -- replace with implementation:
-  return ()
+  -- Set initialization value and operator
+  let initValue = 0
+      initOp = (\_ y -> y)
+
+  -- Print welcome information and start loop
+  putStrLn "Welcome to the simple Haskell calculator!"
+  putStrLn $ show initValue
+  simpleCalculator initValue initOp
+
+  -- Quit from loop and say goodbye
+  putStrLn "Bye!"
   -- end replace
 
 simpleCalculator :: Int -> (Int -> Int -> Int) -> IO ()
 simpleCalculator ans op =  do
   -- task b)
   -- replace with implementation:
-  return ()
+  -- Define a function for matching patterns of CalculatorInput data
+  let
+    matchInput :: CalculatorInput -> IO ()
+    matchInput Exit = return ()
+    matchInput (Error str) = do
+              putStrLn $ "Invalid Input: " ++ str
+              putStrLn $ show ans
+              simpleCalculator ans op
+    matchInput (Operator newOp) = simpleCalculator ans newOp
+    matchInput (Number num) = do
+              let newAns = op ans num
+              putStrLn $ show newAns
+              simpleCalculator newAns op
+
+  -- Getting input
+  newInput <- getInput
+  -- Matching input and perform operations
+  matchInput newInput
   -- end replace
 
 getInput :: IO CalculatorInput
 getInput = do
   -- task c)
   -- replace with implementation:
-  return Exit
+  putStr "> "
+  inputStr <- getLine
+  return $ parseCalculatorInput inputStr
   -- end replace
+
+  -- task d)
+  -- Referential transparency
 
