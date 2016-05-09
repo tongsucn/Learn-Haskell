@@ -47,24 +47,17 @@ simpleCalculator :: Int -> (Int -> Int -> Int) -> IO ()
 simpleCalculator ans op =  do
   -- task c)
   -- replace with implementation:
-  -- Define a function for matching patterns of CalculatorInput data
-  let
-    matchInput :: CalculatorInput -> IO ()
-    matchInput Exit = return ()
-    matchInput (Error str) = do
-              putStrLn $ "Invalid Input: " ++ str
-              putStrLn $ show ans
-              simpleCalculator ans op
-    matchInput (Operator newOp) = simpleCalculator ans newOp
-    matchInput (Number num) = do
-              let newAns = op ans num
-              putStrLn $ show newAns
-              simpleCalculator newAns op
-
   -- Getting input
   newInput <- getInput
+
   -- Matching input and perform operations
-  matchInput newInput
+  case newInput of
+    Exit -> return ()
+    (Error str) -> putStrLn (show (Error str))
+      >> simpleCalculator ans op
+    (Operator newOp) -> simpleCalculator ans newOp
+    (Number num) -> putStrLn (show (op ans num))
+      >> simpleCalculator (op ans num) (\_ y -> y)
   -- end replace
 
 getInput :: IO CalculatorInput
@@ -97,18 +90,12 @@ main' = do
 
 simpleCalculator' :: Int -> (Int -> Int -> Int) -> Int -> IO Int
 simpleCalculator' ans op times = do
-  let
-    matchInput :: CalculatorInput -> IO Int
-    matchInput Exit = return times
-    matchInput (Error str) = do
-              putStrLn $ "Invalid Input: " ++ str
-              putStrLn $ show ans
-              simpleCalculator' ans op times
-    matchInput (Operator newOp) = simpleCalculator' ans newOp times
-    matchInput (Number num) = do
-              let newAns = op ans num
-              putStrLn $ show newAns
-              simpleCalculator' newAns op (times + 1)
-
   newInput <- getInput
-  matchInput newInput
+
+  case newInput of
+    Exit -> return times
+    (Error str) -> putStrLn (show (Error str))
+      >> simpleCalculator' ans op times
+    (Operator newOp) -> simpleCalculator' ans newOp times
+    (Number num) -> putStrLn (show (op ans num))
+      >> simpleCalculator' (op ans num) (\_ y -> y) (times + 1)
