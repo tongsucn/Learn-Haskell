@@ -1,9 +1,9 @@
-module H99_06
+module H99_07
 where
 
-isPalindrome :: String -> Bool
-isPalindrome lst | null lst || length lst == 1 = True
-                 | (head lst) /= (last lst) = False
-                 | otherwise = isPalindrome $ tail $ init lst
+data NestedList a = Elem a | List [NestedList a]
 
-
+flatten :: NestedList a -> [a]
+flatten (Elem x) = [x]
+flatten (List []) = []
+flatten (List (ele:rest)) = (flatten ele) ++ (flatten (List rest))
