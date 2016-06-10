@@ -1,4 +1,4 @@
-module H99_70C
+module H99_71
 where
 
 data Tree a = Node a [Tree a] deriving (Eq, Show)
@@ -18,5 +18,6 @@ tree5 = Node 'a' [
   Node 'b' [Node 'd' [], Node 'e' []]
   ]
 
-nnodes :: Tree a -> Int
-nnodes (Node _ lst) = 1 + sum (map nnodes lst)
+ipl :: Tree a -> Int
+ipl (Node _ []) = 0
+ipl (Node _ lst) = length lst + (sum $ map ipl lst) * 2
